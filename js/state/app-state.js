@@ -24,6 +24,7 @@ class AppState {
       currentCity: null,
       forecast: null,
       unit: storageService.getUnit(),
+      themeMode: storageService.getThemeMode(),
       favorites: storageService.getFavorites(),
       suggestions: [],
       isSearching: false
@@ -123,6 +124,25 @@ class AppState {
       ? UNIT_TYPES.FAHRENHEIT
       : UNIT_TYPES.CELSIUS;
     this.setUnit(nextUnit);
+  }
+
+  /**
+   * Cambia el modo de tema ("dark" | "light") y lo persiste.
+   * @param {"dark"|"light"} mode
+   */
+  setThemeMode(mode) {
+    if (mode !== "dark" && mode !== "light") return;
+    this.state.themeMode = mode;
+    storageService.setThemeMode(mode);
+    this._notify("SET_THEME_MODE");
+  }
+
+  /**
+   * Alterna entre modo oscuro y modo claro.
+   */
+  toggleThemeMode() {
+    const nextMode = this.state.themeMode === "dark" ? "light" : "dark";
+    this.setThemeMode(nextMode);
   }
 
   /**

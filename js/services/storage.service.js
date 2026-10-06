@@ -35,6 +35,34 @@ class StorageService {
   }
 
   /**
+   * Obtiene la preferencia del modo de interfaz ("dark" o "light").
+   * @returns {"dark"|"light"}
+   */
+  getThemeMode() {
+    try {
+      const stored = localStorage.getItem(API_CONFIG.STORAGE_KEYS.THEME_MODE);
+      if (stored === "light" || stored === "dark") {
+        return stored;
+      }
+    } catch (e) {
+      console.warn("No se pudo leer el modo de tema desde localStorage:", e);
+    }
+    return "dark";
+  }
+
+  /**
+   * Guarda la preferencia del modo de interfaz.
+   * @param {"dark"|"light"} mode
+   */
+  setThemeMode(mode) {
+    try {
+      localStorage.setItem(API_CONFIG.STORAGE_KEYS.THEME_MODE, mode);
+    } catch (e) {
+      console.warn("No se pudo persistir el modo de tema:", e);
+    }
+  }
+
+  /**
    * Obtiene la lista de ciudades favoritas guardadas.
    * @returns {Array<Object>}
    */

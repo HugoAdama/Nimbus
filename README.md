@@ -21,7 +21,9 @@ Aplicacion web meteorologica en tiempo real con arquitectura limpia basada en Se
 - **Conmutador de Unidades (°C / °F)**: Alternancia instantanea entre grados Celsius y Fahrenheit persistida en el navegador.
 - **Ciudades Favoritas**: Marcado de ciudades destacadas con estrella dorada, chips de acceso inmediato y sincronizacion en `localStorage`.
 - **Grafico Horario Interactivo (24h)**: Curva continua de temperatura generada matematicamente con Splines Bezier sobre SVG nativo, con linea guia y tooltip flotante interactivo.
-- **Fondo y Temas Dinamicos**: Paletas cromatics reactivas a la condicion atmosferica (despejado, nubes, lluvia, tormenta, nieve, niebla) y al ciclo solar (dia/noche).
+- **Fondo y Temas Dinamicos**: Paletas cromaticas reactivas a la condicion atmosferica (despejado, nubes, lluvia, tormenta, nieve, niebla) y al ciclo solar (dia/noche).
+- **Modo Claro y Oscuro**: Soporte para alternar entre Modo Oscuro y Modo Claro con paleta adaptada, alto contraste, transiciones fluidas y persistencia automatica.
+- **Diseno Responsivo Equilibrado**: Distribucion 2x2 en pantallas de escritorio y flujo vertical fluido en tablet y moviles, con tipografia fluida mediante `clamp()`.
 - **Estricta Politica Sin Emojis**: Catalogo de iconos vectoriales SVG de 24x24 px limpios y consistentes en cualquier dispositivo.
 
 ---

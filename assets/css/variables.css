@@ -58,3 +58,39 @@
   --transition-normal: 0.26s cubic-bezier(0.4, 0, 0.2, 1);
   --transition-slow: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
+/* ==========================================================================
+   Modo Claro (Light Mode)
+   ========================================================================== */
+[data-theme-mode="light"],
+body.mode-light {
+  --color-bg-base: #f0f4f9;
+  --color-bg-surface: rgba(255, 255, 255, 0.85);
+  --color-bg-surface-elevated: rgba(255, 255, 255, 0.96);
+  --color-bg-surface-glass: rgba(255, 255, 255, 0.75);
+  --color-bg-card: rgba(255, 255, 255, 0.88);
+  --color-bg-card-hover: #ffffff;
+
+  --color-border: rgba(15, 23, 42, 0.09);
+  --color-border-hover: rgba(15, 23, 42, 0.18);
+  --color-border-accent: rgba(2, 132, 199, 0.4);
+
+  --color-text-primary: #0f172a;
+  --color-text-secondary: #334155;
+  --color-text-muted: #64748b;
+  --color-text-inverse: #ffffff;
+
+  --color-primary: #0284c7;
+  --color-primary-hover: #0369a1;
+  --color-accent: #6366f1;
+
+  --chart-line-color: #0284c7;
+  --chart-grid-color: rgba(15, 23, 42, 0.08);
+  --chart-text-color: #64748b;
+
+  --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.06);
+  --shadow-md: 0 8px 24px rgba(15, 23, 42, 0.08);
+  --shadow-lg: 0 16px 36px rgba(15, 23, 42, 0.12);
+  --shadow-glow: 0 0 35px rgba(2, 132, 199, 0.15);
+  --shadow-inner: inset 0 1px 1px rgba(255, 255, 255, 0.9);
+}

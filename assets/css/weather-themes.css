@@ -124,3 +124,109 @@ body.theme-fog .card-ambient-glow {
 body.theme-fog .hero-svg-icon {
   stroke: #94a3b8;
 }
+
+/* ==========================================================================
+   Sobreescrituras para Modo Claro (Light Mode) Atmosférico
+   ========================================================================== */
+body.mode-light.theme-default {
+  background: radial-gradient(circle at 50% 0%, #e0f2fe 0%, #f1f5f9 100%);
+  --chart-line-color: #0284c7;
+}
+
+body.mode-light.theme-clear.is-day {
+  background: radial-gradient(circle at 60% -10%, #fef3c7 0%, #e0f2fe 45%, #f1f5f9 100%);
+  --color-primary: #0284c7;
+  --chart-line-color: #d97706;
+}
+
+body.mode-light.theme-clear.is-day .card-ambient-glow {
+  background: radial-gradient(circle, rgba(245, 158, 11, 0.15) 0%, transparent 70%);
+}
+
+body.mode-light.theme-clear.is-day .hero-svg-icon {
+  stroke: #d97706;
+}
+
+body.mode-light.theme-clear.is-night {
+  background: radial-gradient(circle at 50% 0%, #e0e7ff 0%, #ede9fe 50%, #f8fafc 100%);
+  --color-primary: #6366f1;
+  --chart-line-color: #6366f1;
+}
+
+body.mode-light.theme-clear.is-night .card-ambient-glow {
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.12) 0%, transparent 70%);
+}
+
+body.mode-light.theme-clear.is-night .hero-svg-icon {
+  stroke: #6366f1;
+}
+
+body.mode-light.theme-clouds {
+  background: radial-gradient(circle at 50% 0%, #e2e8f0 0%, #f1f5f9 60%, #e2e8f0 100%);
+  --color-primary: #64748b;
+  --chart-line-color: #0284c7;
+}
+
+body.mode-light.theme-clouds .card-ambient-glow {
+  background: radial-gradient(circle, rgba(100, 116, 139, 0.1) 0%, transparent 70%);
+}
+
+body.mode-light.theme-clouds .hero-svg-icon {
+  stroke: #64748b;
+}
+
+body.mode-light.theme-rain {
+  background: radial-gradient(circle at 50% -10%, #bae6fd 0%, #e0f2fe 50%, #f1f5f9 100%);
+  --color-primary: #0284c7;
+  --chart-line-color: #0369a1;
+}
+
+body.mode-light.theme-rain .card-ambient-glow {
+  background: radial-gradient(circle, rgba(2, 132, 199, 0.15) 0%, transparent 70%);
+}
+
+body.mode-light.theme-rain .hero-svg-icon {
+  stroke: #0284c7;
+}
+
+body.mode-light.theme-storm {
+  background: radial-gradient(circle at 50% -10%, #e9d5ff 0%, #f3e8ff 50%, #f8fafc 100%);
+  --color-primary: #9333ea;
+  --chart-line-color: #7e22ce;
+}
+
+body.mode-light.theme-storm .card-ambient-glow {
+  background: radial-gradient(circle, rgba(147, 51, 234, 0.15) 0%, transparent 70%);
+}
+
+body.mode-light.theme-storm .hero-svg-icon {
+  stroke: #9333ea;
+}
+
+body.mode-light.theme-snow {
+  background: radial-gradient(circle at 50% -10%, #cffafe 0%, #e0f2fe 50%, #f8fafc 100%);
+  --color-primary: #0891b2;
+  --chart-line-color: #0e7490;
+}
+
+body.mode-light.theme-snow .card-ambient-glow {
+  background: radial-gradient(circle, rgba(8, 145, 178, 0.12) 0%, transparent 70%);
+}
+
+body.mode-light.theme-snow .hero-svg-icon {
+  stroke: #0891b2;
+}
+
+body.mode-light.theme-fog {
+  background: radial-gradient(circle at 50% 0%, #f1f5f9 0%, #e2e8f0 60%, #cbd5e1 100%);
+  --color-primary: #64748b;
+  --chart-line-color: #475569;
+}
+
+body.mode-light.theme-fog .card-ambient-glow {
+  background: radial-gradient(circle, rgba(100, 116, 139, 0.1) 0%, transparent 70%);
+}
+
+body.mode-light.theme-fog .hero-svg-icon {
+  stroke: #64748b;
+}

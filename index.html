@@ -49,17 +49,17 @@
 
       <!-- Contenedor Principal de Datos Meteorológicos -->
       <main class="weather-main-layout" id="weather-dashboard">
-        <!-- Columna Primaria: Tarjeta Hero y Gráfico Horario -->
-        <div class="layout-column-primary">
-          <div id="mount-current-weather"></div>
-          <div id="mount-hourly-chart"></div>
-        </div>
+        <!-- Tarjeta Hero del Clima Actual -->
+        <div class="grid-area-hero" id="mount-current-weather"></div>
 
-        <!-- Columna Secundaria: Pronóstico Extendido de 7 Días y Métricas -->
-        <div class="layout-column-secondary">
-          <div id="mount-daily-forecast"></div>
-          <div id="mount-weather-metrics"></div>
-        </div>
+        <!-- Pronóstico Extendido de 7 Días -->
+        <div class="grid-area-daily" id="mount-daily-forecast"></div>
+
+        <!-- Gráfico Horario Interactivo (24h) -->
+        <div class="grid-area-chart" id="mount-hourly-chart"></div>
+
+        <!-- Métricas Atmosféricas Detalladas -->
+        <div class="grid-area-metrics" id="mount-weather-metrics"></div>
       </main>
 
     </div>

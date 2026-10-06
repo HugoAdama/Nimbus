@@ -84,6 +84,12 @@
   -webkit-text-fill-color: transparent;
 }
 
+body.mode-light .brand-title {
+  background: linear-gradient(135deg, #0f172a 30%, #0284c7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 .brand-tagline {
   display: block;
   font-size: 0.72rem;
@@ -123,26 +129,56 @@
   display: grid;
   grid-template-columns: 1fr;
   gap: 1.5rem;
+  width: 100%;
 }
 
-@media (min-width: 1080px) {
+@media (min-width: 1024px) {
   .weather-main-layout {
-    grid-template-columns: 1.35fr 1fr;
-    align-items: start;
-    gap: 1.75rem;
+    grid-template-columns: 1.3fr 1fr;
+    grid-template-areas:
+      "hero daily"
+      "chart metrics";
+    align-items: stretch;
+    gap: 1.5rem;
+  }
+
+  .grid-area-hero {
+    grid-area: hero;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .grid-area-daily {
+    grid-area: daily;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .grid-area-chart {
+    grid-area: chart;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .grid-area-metrics {
+    grid-area: metrics;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .grid-area-hero > section,
+  .grid-area-daily > section,
+  .grid-area-chart > section,
+  .grid-area-metrics > section {
+    height: 100%;
   }
 }
 
-.layout-column-primary {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-.layout-column-secondary {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+@media (max-width: 1023px) {
+  .grid-area-hero { order: 1; }
+  .grid-area-chart { order: 2; }
+  .grid-area-daily { order: 3; }
+  .grid-area-metrics { order: 4; }
 }
 
 /* Superficie de tarjeta estándar */

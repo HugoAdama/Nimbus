@@ -77,21 +77,33 @@ class WeatherApp {
   }
 
   /**
-   * Observa cambios en el estado para actualizar el fondo temático dinámico.
+   * Observa cambios en el estado para actualizar el fondo temático dinámico y modo claro/oscuro.
    */
   setupThemeWatcher() {
+    const applyThemeMode = (mode) => {
+      document.documentElement.setAttribute("data-theme-mode", mode);
+      document.body.classList.toggle("mode-light", mode === "light");
+      document.body.classList.toggle("mode-dark", mode === "dark");
+    };
+
+    // Aplicar modo inicial
+    applyThemeMode(appState.getState().themeMode);
+
     appState.subscribe((state, action) => {
       const body = document.body;
       const appContainer = document.getElementById("app-container");
+
+      // Sincronizar modo claro / oscuro
+      applyThemeMode(state.themeMode);
 
       if (state.status === APP_STATUS.SUCCESS && state.forecast) {
         const current = state.forecast.current;
         const weatherInfo = getWeatherInterpretation(current.weatherCode, current.isDay);
 
-        // Remover clases temáticas anteriores
+        // Remover clases temáticas climáticas anteriores
         const themeClasses = [
           "theme-clear", "theme-clouds", "theme-rain",
-          "theme-storm", "theme-snow", "theme-fog"
+          "theme-storm", "theme-snow", "theme-fog", "theme-default"
         ];
         body.classList.remove(...themeClasses);
         body.classList.remove("is-day", "is-night");
@@ -104,7 +116,12 @@ class WeatherApp {
         }
       } else {
         // En estado idle, error o loading temprano, tema neutral sobrio
-        body.className = "theme-default is-day";
+        const themeClasses = [
+          "theme-clear", "theme-clouds", "theme-rain",
+          "theme-storm", "theme-snow", "theme-fog"
+        ];
+        body.classList.remove(...themeClasses);
+        body.classList.add("theme-default", "is-day");
         if (appContainer) {
           delete appContainer.dataset.theme;
         }

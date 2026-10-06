@@ -81,6 +81,18 @@ input {
   background: rgba(255, 255, 255, 0.28);
 }
 
+body.mode-light ::-webkit-scrollbar-track {
+  background: rgba(226, 232, 240, 0.8);
+}
+
+body.mode-light ::-webkit-scrollbar-thumb {
+  background: rgba(15, 23, 42, 0.2);
+}
+
+body.mode-light ::-webkit-scrollbar-thumb:hover {
+  background: rgba(15, 23, 42, 0.35);
+}
+
 /* Utilidad para lectores de pantalla */
 .sr-only {
   position: absolute;

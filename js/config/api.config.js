@@ -43,9 +43,10 @@ export const API_CONFIG = {
   },
 
   STORAGE_KEYS: {
-    UNIT: "clima_pref_unit",
-    FAVORITES: "clima_pref_favorites",
-    LAST_CITY: "clima_pref_last_city"
+    UNIT: "nimbus_pref_unit",
+    FAVORITES: "nimbus_pref_favorites",
+    LAST_CITY: "nimbus_pref_last_city",
+    THEME_MODE: "nimbus_theme_mode"
   },
 
   // Ciudades sugeridas por defecto en estado vacío

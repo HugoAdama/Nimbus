@@ -22,12 +22,15 @@ export class HeaderBarComponent {
     appState.subscribe((state, action) => {
       if (action === "SET_UNIT") {
         this.updateUnitButtons(state.unit);
+      } else if (action === "SET_THEME_MODE") {
+        this.render();
+        this.bindEvents();
       }
     });
   }
 
   render() {
-    const currentUnit = appState.getState().unit;
+    const { unit: currentUnit, themeMode: currentThemeMode } = appState.getState();
 
     this.container.innerHTML = `
       <header class="app-header">
@@ -44,13 +47,24 @@ export class HeaderBarComponent {
         <div class="header-actions">
           <button 
             type="button" 
+            id="btn-theme-mode" 
+            class="action-btn theme-mode-btn" 
+            title="${currentThemeMode === "dark" ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}"
+            aria-label="${currentThemeMode === "dark" ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}"
+          >
+            <span class="btn-icon theme-icon">${currentThemeMode === "dark" ? SVG_ICONS.sun : SVG_ICONS.moon}</span>
+            <span class="btn-text theme-label">${currentThemeMode === "dark" ? "Claro" : "Oscuro"}</span>
+          </button>
+
+          <button 
+            type="button" 
             id="btn-locate-me" 
             class="action-btn locate-btn" 
             title="Usar mi ubicación actual"
             aria-label="Obtener clima en mi ubicación actual"
           >
             <span class="btn-icon">${SVG_ICONS.location}</span>
-            <span class="btn-text">Mi ubicación</span>
+            <span class="btn-text">Ubicación</span>
           </button>
 
           <div class="unit-switch" role="group" aria-label="Unidad de temperatura">
@@ -77,6 +91,14 @@ export class HeaderBarComponent {
   }
 
   bindEvents() {
+    // Botón de cambio de modo Claro / Oscuro
+    const themeBtn = this.container.querySelector("#btn-theme-mode");
+    if (themeBtn) {
+      themeBtn.addEventListener("click", () => {
+        appState.toggleThemeMode();
+      });
+    }
+
     // Botón de geolocalización
     const locateBtn = this.container.querySelector("#btn-locate-me");
     if (locateBtn && this.onLocateMe) {

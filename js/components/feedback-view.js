@@ -161,11 +161,11 @@ export class FeedbackViewComponent {
 
         <div class="error-help-box">
           <div class="help-item">
-            <span class="help-bullet">•</span>
+            <span class="help-bullet">-</span>
             <span>Verifica la ortografía o intenta ingresar el nombre del país (ej. "Santiago, Chile").</span>
           </div>
           <div class="help-item">
-            <span class="help-bullet">•</span>
+            <span class="help-bullet">-</span>
             <span>Si usaste la opción de ubicación, asegúrate de haber otorgado los permisos en tu navegador.</span>
           </div>
         </div>
