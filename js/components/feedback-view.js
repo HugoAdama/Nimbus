@@ -80,9 +80,11 @@ export class FeedbackViewComponent {
                 type="button" 
                 class="suggestion-pill" 
                 data-index="${idx}"
+                title="Ver pronóstico de ${escapeHtml(s.name)}, ${escapeHtml(s.country)}"
               >
-                <span class="pill-dot"></span>
-                <span>${escapeHtml(s.name)}</span>
+                <span class="pill-dot" aria-hidden="true"></span>
+                <span class="pill-name">${escapeHtml(s.name)}</span>
+                <span class="pill-country">${escapeHtml(s.country)}</span>
               </button>
             `).join("")}
           </div>
