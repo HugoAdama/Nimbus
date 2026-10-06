@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Nimbus - Aplicación meteorológica en tiempo real con pronóstico horario, extendido de 7 días, búsqueda inteligente con autocompletado y geolocalización de alta precisión.">
+  <meta name="keywords" content="clima, tiempo meteorológico, pronóstico por horas, temperatura, open-meteo, geolocalización, nimbus">
+  <meta name="author" content="Nimbus Core Team">
+  <meta name="theme-color" content="#080d1a">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Nimbus - Meteorología de Precisión">
+  <meta property="og:description" content="Consulta pronósticos meteorológicos en tiempo real, tendencias horarias y condiciones atmosféricas en cualquier ciudad del mundo.">
+  <meta property="og:type" content="website">
+
+  <title>Nimbus - Pronóstico Meteorológico en Tiempo Real</title>
+
+  <!-- Fuentes Tipográficas Modernas -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Hojas de Estilo del Sistema de Diseño -->
+  <link rel="stylesheet" href="assets/css/variables.css">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/layout.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <link rel="stylesheet" href="assets/css/weather-themes.css">
+  <link rel="stylesheet" href="assets/css/animations.css">
+</head>
+<body class="theme-default is-day">
+  <div class="app-wrapper">
+    <div class="app-container" id="app-container">
+      
+      <!-- Punto de montaje: Cabecera con selector de unidad y geolocalización -->
+      <div id="mount-header"></div>
+
+      <!-- Área de Búsqueda y Acceso Rápido -->
+      <div class="app-search-area">
+        <!-- Punto de montaje: Buscador con autocompletado y debounce -->
+        <div id="mount-search"></div>
+
+        <!-- Punto de montaje: Ciudades favoritas -->
+        <div id="mount-favorites" class="hidden"></div>
+      </div>
+
+      <!-- Punto de montaje: Estados de retroalimentación (Vacío, Carga, Error) -->
+      <div id="mount-feedback"></div>
+
+      <!-- Contenedor Principal de Datos Meteorológicos -->
+      <main class="weather-main-layout" id="weather-dashboard">
+        <!-- Columna Primaria: Tarjeta Hero y Gráfico Horario -->
+        <div class="layout-column-primary">
+          <div id="mount-current-weather"></div>
+          <div id="mount-hourly-chart"></div>
+        </div>
+
+        <!-- Columna Secundaria: Pronóstico Extendido de 7 Días y Métricas -->
+        <div class="layout-column-secondary">
+          <div id="mount-daily-forecast"></div>
+          <div id="mount-weather-metrics"></div>
+        </div>
+      </main>
+
+    </div>
+
+    <!-- Pie de página con créditos de datos y términos de Open-Meteo -->
+    <footer class="app-footer">
+      <p>
+        Datos meteorológicos provistos por 
+        <a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer" class="footer-link">Open-Meteo</a> 
+        bajo licencia de atribución CC BY 4.0.
+      </p>
+      <p>Diseño arquitectónico modular con separación de responsabilidades en JavaScript ES6+.</p>
+    </footer>
+  </div>
+
+  <!-- Orquestador Principal ES Modules -->
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

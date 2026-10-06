@@ -1,0 +1,126 @@
+/**
+ * Temas visuales dinámicos según la condición atmosférica y el ciclo día/noche.
+ * Transforma suavemente la ambientación, gradientes y colores de acento.
+ */
+
+/* Tema por defecto (Neutral / Inicio) */
+body.theme-default {
+  background: radial-gradient(circle at 50% 0%, #152238 0%, #080d1a 100%);
+  --chart-line-color: #38bdf8;
+}
+
+/* ==========================================================================
+   Cielo Despejado (Día y Noche)
+   ========================================================================== */
+body.theme-clear.is-day {
+  background: radial-gradient(circle at 60% -10%, #1e3a5f 0%, #0d1f33 45%, #070d18 100%);
+  --color-primary: #38bdf8;
+  --chart-line-color: #f59e0b;
+}
+
+body.theme-clear.is-day .card-ambient-glow {
+  background: radial-gradient(circle, rgba(245, 158, 11, 0.22) 0%, transparent 70%);
+}
+
+body.theme-clear.is-day .hero-svg-icon {
+  stroke: #fbbf24;
+}
+
+body.theme-clear.is-night {
+  background: radial-gradient(circle at 50% 0%, #0f1c3f 0%, #080d1d 50%, #04060c 100%);
+  --color-primary: #818cf8;
+  --chart-line-color: #818cf8;
+}
+
+body.theme-clear.is-night .card-ambient-glow {
+  background: radial-gradient(circle, rgba(129, 140, 248, 0.2) 0%, transparent 70%);
+}
+
+body.theme-clear.is-night .hero-svg-icon {
+  stroke: #a5b4fc;
+}
+
+/* ==========================================================================
+   Nublado y Parcialmente Nublado
+   ========================================================================== */
+body.theme-clouds {
+  background: radial-gradient(circle at 50% 0%, #1e293b 0%, #0f172a 50%, #080d16 100%);
+  --color-primary: #94a3b8;
+  --chart-line-color: #38bdf8;
+}
+
+body.theme-clouds .card-ambient-glow {
+  background: radial-gradient(circle, rgba(148, 163, 184, 0.16) 0%, transparent 70%);
+}
+
+body.theme-clouds .hero-svg-icon {
+  stroke: #cbd5e1;
+}
+
+/* ==========================================================================
+   Lluvia y Llovizna
+   ========================================================================== */
+body.theme-rain {
+  background: radial-gradient(circle at 50% -10%, #0e2b44 0%, #0a1b2d 50%, #050d17 100%);
+  --color-primary: #38bdf8;
+  --chart-line-color: #0284c7;
+}
+
+body.theme-rain .card-ambient-glow {
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.25) 0%, transparent 70%);
+}
+
+body.theme-rain .hero-svg-icon {
+  stroke: #38bdf8;
+}
+
+/* ==========================================================================
+   Tormenta Eléctrica
+   ========================================================================== */
+body.theme-storm {
+  background: radial-gradient(circle at 50% -10%, #1e153b 0%, #100b24 50%, #06040e 100%);
+  --color-primary: #a855f7;
+  --chart-line-color: #c084fc;
+}
+
+body.theme-storm .card-ambient-glow {
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.28) 0%, transparent 70%);
+}
+
+body.theme-storm .hero-svg-icon {
+  stroke: #c084fc;
+}
+
+/* ==========================================================================
+   Nieve y Heladas
+   ========================================================================== */
+body.theme-snow {
+  background: radial-gradient(circle at 50% -10%, #133147 0%, #0d2030 50%, #060e17 100%);
+  --color-primary: #67e8f9;
+  --chart-line-color: #22d3ee;
+}
+
+body.theme-snow .card-ambient-glow {
+  background: radial-gradient(circle, rgba(103, 232, 249, 0.25) 0%, transparent 70%);
+}
+
+body.theme-snow .hero-svg-icon {
+  stroke: #a5f3fc;
+}
+
+/* ==========================================================================
+   Niebla y Neblina
+   ========================================================================== */
+body.theme-fog {
+  background: radial-gradient(circle at 50% 0%, #1a222d 0%, #10161f 50%, #090c12 100%);
+  --color-primary: #94a3b8;
+  --chart-line-color: #cbd5e1;
+}
+
+body.theme-fog .card-ambient-glow {
+  background: radial-gradient(circle, rgba(148, 163, 184, 0.18) 0%, transparent 70%);
+}
+
+body.theme-fog .hero-svg-icon {
+  stroke: #94a3b8;
+}
