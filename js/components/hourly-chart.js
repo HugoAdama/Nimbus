@@ -97,11 +97,21 @@ export class HourlyChartComponent {
     this.container.innerHTML = `
       <section class="hourly-section card-surface" aria-label="Pronóstico por horas">
         <div class="section-header">
-          <div class="section-title-wrap">
-            <span class="section-icon">${SVG_ICONS.clock}</span>
-            <h3 class="section-title">Pronóstico por horas (24h)</h3>
+          <div class="section-title-group">
+            <div class="section-title-wrap">
+              <span class="section-icon">${SVG_ICONS.clock}</span>
+              <h3 class="section-title">Pronóstico por horas (24h)</h3>
+            </div>
+            <span class="section-subtitle">Evolución de temperatura y probabilidad de lluvia</span>
           </div>
-          <span class="section-subtitle">Evolución de temperatura y probabilidad de lluvia</span>
+          <div class="reel-nav-controls" aria-label="Navegar horas">
+            <button type="button" class="reel-nav-btn prev" id="btn-reel-prev" title="Desplazar hacia la izquierda" aria-label="Horas anteriores">
+              ${SVG_ICONS.chevronLeft}
+            </button>
+            <button type="button" class="reel-nav-btn next" id="btn-reel-next" title="Desplazar hacia la derecha" aria-label="Siguientes horas">
+              ${SVG_ICONS.chevronRight}
+            </button>
+          </div>
         </div>
 
         <div class="chart-wrapper">
@@ -199,28 +209,31 @@ export class HourlyChartComponent {
           </div>
         </div>
 
-        <div class="hourly-cards-reel" role="region" aria-label="Tarjetas detalladas por hora">
-          ${hours.slice(0, 12).map((item, i) => {
-            const wInfo = getWeatherInterpretation(item.weatherCode, 1);
-            return `
-              <div class="hourly-reel-card">
-                <span class="reel-hour">${formatHour(item.time)}</span>
-                <div class="reel-icon" title="${escapeHtml(wInfo.label)}">
-                  ${getIcon(wInfo.icon, "reel-svg")}
+        <div class="hourly-reel-wrapper">
+          <div class="hourly-cards-reel" id="hourly-cards-reel" role="region" aria-label="Tarjetas detalladas por hora" tabindex="0">
+            ${hours.slice(0, 24).map((item, i) => {
+              const wInfo = getWeatherInterpretation(item.weatherCode, 1);
+              return `
+                <div class="hourly-reel-card">
+                  <span class="reel-hour">${formatHour(item.time)}</span>
+                  <div class="reel-icon" title="${escapeHtml(wInfo.label)}">
+                    ${getIcon(wInfo.icon, "reel-svg")}
+                  </div>
+                  <span class="reel-temp">${formatTempString(item.temperature, unit)}</span>
+                  <span class="reel-precip" title="Probabilidad de lluvia">
+                    <span class="precip-icon">${SVG_ICONS.drizzle}</span>
+                    ${item.precipitationProbability}%
+                  </span>
                 </div>
-                <span class="reel-temp">${formatTempString(item.temperature, unit)}</span>
-                <span class="reel-precip" title="Probabilidad de lluvia">
-                  <span class="precip-icon">${SVG_ICONS.drizzle}</span>
-                  ${item.precipitationProbability}%
-                </span>
-              </div>
-            `;
-          }).join("")}
+              `;
+            }).join("")}
+          </div>
         </div>
       </section>
     `;
 
     this.bindChartInteraction();
+    this.bindReelInteractions();
   }
 
 
@@ -294,5 +307,79 @@ export class HourlyChartComponent {
     svg.addEventListener("mouseleave", onPointerLeave);
     svg.addEventListener("touchmove", onPointerMove, { passive: true });
     svg.addEventListener("touchend", onPointerLeave);
+  }
+
+  /**
+   * Enlaza controles de navegación, desplazamiento con rueda del ratón
+   * y arrastre por clic para la tira horizontal de tarjetas de 24 horas.
+   */
+  bindReelInteractions() {
+    const reel = this.container.querySelector("#hourly-cards-reel");
+    const btnPrev = this.container.querySelector("#btn-reel-prev");
+    const btnNext = this.container.querySelector("#btn-reel-next");
+
+    if (!reel) return;
+
+    // Actualizar estado activo/deshabilitado de los botones de navegación
+    const updateNavButtons = () => {
+      if (!btnPrev || !btnNext) return;
+      const maxScroll = reel.scrollWidth - reel.clientWidth;
+      btnPrev.disabled = reel.scrollLeft <= 4;
+      btnNext.disabled = reel.scrollLeft >= maxScroll - 4;
+    };
+
+    // Navegación con clic en botones
+    if (btnPrev) {
+      btnPrev.addEventListener("click", () => {
+        reel.scrollBy({ left: -320, behavior: "smooth" });
+      });
+    }
+
+    if (btnNext) {
+      btnNext.addEventListener("click", () => {
+        reel.scrollBy({ left: 320, behavior: "smooth" });
+      });
+    }
+
+    // Desplazamiento horizontal fluido con la rueda del ratón
+    reel.addEventListener("wheel", (e) => {
+      if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+        e.preventDefault();
+        reel.scrollLeft += e.deltaY;
+      }
+    }, { passive: false });
+
+    // Soporte para arrastre con el ratón (drag-to-scroll)
+    let isDown = false;
+    let startX = 0;
+    let scrollStart = 0;
+
+    reel.addEventListener("mousedown", (e) => {
+      if (e.button !== 0) return; // Solo botón principal
+      isDown = true;
+      reel.classList.add("is-dragging");
+      startX = e.pageX - reel.offsetLeft;
+      scrollStart = reel.scrollLeft;
+    });
+
+    const stopDragging = () => {
+      if (isDown) {
+        isDown = false;
+        reel.classList.remove("is-dragging");
+      }
+    };
+
+    window.addEventListener("mouseup", stopDragging);
+
+    reel.addEventListener("mousemove", (e) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - reel.offsetLeft;
+      const walk = (x - startX) * 1.4;
+      reel.scrollLeft = scrollStart - walk;
+    });
+
+    reel.addEventListener("scroll", updateNavButtons, { passive: true });
+    setTimeout(updateNavButtons, 80);
   }
 }

@@ -113,7 +113,7 @@ export class CurrentWeatherComponent {
 
         <div class="current-highlights-strip" role="group" aria-label="Resumen rápido">
           <div class="highlight-item" title="Humedad relativa">
-            <span class="highlight-icon">${SVG_ICONS.droplet}</span>
+            <span class="highlight-icon">${SVG_ICONS.humidity || SVG_ICONS.droplet}</span>
             <span class="highlight-val">${current.humidity}%</span>
             <span class="highlight-label">Humedad</span>
           </div>

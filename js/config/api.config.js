@@ -51,6 +51,7 @@ export const API_CONFIG = {
 
   // Ciudades sugeridas por defecto en estado vacío
   DEFAULT_SUGGESTIONS: [
+    { name: "Lima", country: "Perú", latitude: -12.0464, longitude: -77.0428 },
     { name: "Madrid", country: "España", latitude: 40.4165, longitude: -3.70256 },
     { name: "Ciudad de México", country: "México", latitude: 19.4326, longitude: -99.1332 },
     { name: "Buenos Aires", country: "Argentina", latitude: -34.6131, longitude: -58.3772 },
