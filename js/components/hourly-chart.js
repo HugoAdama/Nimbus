@@ -10,6 +10,7 @@ import { formatHour } from "../utils/formatters.js";
 import { getWeatherInterpretation } from "../config/wmo-codes.js";
 import { SVG_ICONS, getIcon } from "../../assets/icons/weather-icons.js";
 import { escapeHtml } from "../utils/dom.js";
+import { generateCubicBezierPath, generateAreaPath } from "../utils/svg-curve.js";
 
 export class HourlyChartComponent {
   /**
@@ -80,9 +81,9 @@ export class HourlyChartComponent {
       };
     });
 
-    // Generar ruta de curva cúbica Bézier suave
-    const pathD = this.generateSmoothPath(this.pointsData);
-    const areaD = `${pathD} L ${this.pointsData[this.pointsData.length - 1].x} ${height - padBottom} L ${this.pointsData[0].x} ${height - padBottom} Z`;
+    // Generar ruta de curva cúbica Bézier suave y polígono de área
+    const pathD = generateCubicBezierPath(this.pointsData);
+    const areaD = generateAreaPath(pathD, this.pointsData, height - padBottom);
 
     // Líneas guía horizontales
     const gridLines = [
@@ -222,31 +223,6 @@ export class HourlyChartComponent {
     this.bindChartInteraction();
   }
 
-  /**
-   * Genera el atributo SVG 'd' con curvas Bézier cúbicas entre puntos.
-   */
-  generateSmoothPath(points) {
-    if (points.length < 2) return "";
-    let d = `M ${points[0].x} ${points[0].y}`;
-
-    for (let i = 0; i < points.length - 1; i++) {
-      const p0 = i > 0 ? points[i - 1] : points[i];
-      const p1 = points[i];
-      const p2 = points[i + 1];
-      const p3 = i < points.length - 2 ? points[i + 2] : p2;
-
-      // Cálculo de puntos de control Catmull-Rom a Bézier
-      const cp1x = p1.x + (p2.x - p0.x) / 6;
-      const cp1y = p1.y + (p2.y - p0.y) / 6;
-
-      const cp2x = p2.x - (p3.x - p1.x) / 6;
-      const cp2y = p2.y - (p3.y - p1.y) / 6;
-
-      d += ` C ${cp1x.toFixed(2)} ${cp1y.toFixed(2)}, ${cp2x.toFixed(2)} ${cp2y.toFixed(2)}, ${p2.x.toFixed(2)} ${p2.y.toFixed(2)}`;
-    }
-
-    return d;
-  }
 
   bindChartInteraction() {
     const svg = this.container.querySelector("#hourly-svg-chart");

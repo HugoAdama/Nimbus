@@ -40,10 +40,20 @@ APP_CLIMAS/
 |   |   |-- variables.css            Tokens de diseno y paleta cromatica
 |   |   |-- base.css                 Reset y tipografia base
 |   |   |-- layout.css               Contenedores y grilla responsiva
-|   |   |-- components.css           Estilos modulares de componentes
+|   |   |-- components.css           Master import de componentes
+|   |   |-- components/              Hojas de estilo modulares por componente (SoC)
+|   |   |   |-- header.css           Cabecera y controles
+|   |   |   |-- search.css           Buscador y sugerencias dropdown
+|   |   |   |-- favorites.css        Chips de favoritos
+|   |   |   |-- current-weather.css  Tarjeta hero de clima actual
+|   |   |   |-- hourly-chart.css     Grafico de 24h y tira horizontal
+|   |   |   |-- daily-forecast.css   Pronostico de 7 dias y barras termicas
+|   |   |   |-- weather-metrics.css  Metricas atmosfericas detalladas
+|   |   |   |-- feedback.css         Vistas de estado vacio, carga y error
 |   |   |-- weather-themes.css       Temas ambientales segun clima y ciclo solar
 |   |   |-- animations.css           Transiciones y animaciones fluidas
 |   |-- icons/
+|       |-- favicon.svg              Icono oficial de aplicacion y favicon
 |       |-- weather-icons.js         Catalogo vectorial SVG (sin emojis)
 |-- js/
 |   |-- app.js                       Punto de montaje e inicializacion
@@ -56,6 +66,7 @@ APP_CLIMAS/
 |   |   |-- geolocation.service.js   Manejo de GPS del navegador y geocodificacion inversa
 |   |   |-- storage.service.js       Persistencia tolerante a fallos en localStorage
 |   |-- utils/
+|   |   |-- svg-curve.js             Calculo matematico de splines Bezier para SVG
 |   |   |-- debounce.js              Manejador de retardo temporal con cancelacion
 |   |   |-- units.js                 Conversiones Celsius/Fahrenheit y viento
 |   |   |-- formatters.js            Formateo de fechas, horas y cardinales en espanol

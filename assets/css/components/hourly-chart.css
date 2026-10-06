@@ -1,0 +1,217 @@
+/**
+ * Componente: Gráfico de Temperatura por Horas (24h) y Tira Horizontal
+ */
+
+.hourly-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.chart-wrapper {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.chart-scroll-container {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow-x: auto;
+  padding-bottom: 0.65rem;
+}
+
+.hourly-svg {
+  width: 100%;
+  min-width: 460px;
+  max-width: 100%;
+  height: auto;
+  display: block;
+  overflow: visible;
+}
+
+.chart-grid-line {
+  stroke: var(--chart-grid-color);
+  stroke-dasharray: 4 4;
+  stroke-width: 1;
+}
+
+.chart-grid-text {
+  fill: var(--chart-text-color);
+  font-size: 13px;
+  font-weight: 600;
+  font-family: var(--font-family-mono);
+}
+
+.chart-stroke-path {
+  stroke: var(--chart-line-color);
+  stroke-width: 3.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 4px 12px rgba(56, 189, 248, 0.35));
+}
+
+.chart-dot {
+  fill: var(--color-bg-base);
+  stroke: var(--chart-line-color);
+  stroke-width: 2.5;
+  transition: transform 0.15s ease, r 0.15s ease;
+}
+
+.chart-point-group:hover .chart-dot {
+  r: 6.5;
+  fill: var(--chart-line-color);
+}
+
+.chart-val-text {
+  fill: var(--color-text-primary);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.chart-axis-hour {
+  fill: var(--color-text-muted);
+  font-size: 13px;
+  font-weight: 500;
+  font-family: var(--font-family-mono);
+}
+
+/* Tracker de cursor / puntero */
+.tracker-line {
+  stroke: var(--color-border-hover);
+  stroke-width: 1.5;
+  stroke-dasharray: 3 3;
+}
+
+.tracker-circle {
+  fill: var(--color-primary);
+  stroke: #ffffff;
+  stroke-width: 2.5;
+  filter: drop-shadow(0 0 8px var(--color-primary));
+}
+
+/* Tooltip dinámico del gráfico */
+.chart-tooltip {
+  position: absolute;
+  transform: translate(-50%, -100%);
+  background: var(--color-bg-surface-elevated);
+  backdrop-filter: var(--blur-glass);
+  -webkit-backdrop-filter: var(--blur-glass);
+  border: 1px solid var(--color-border-accent);
+  border-radius: var(--radius-sm);
+  padding: 0.6rem 0.85rem;
+  pointer-events: none;
+  font-size: 0.88rem;
+  z-index: 30;
+  box-shadow: var(--shadow-md);
+  white-space: nowrap;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  transition: opacity 0.1s ease;
+}
+
+.tooltip-time {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--color-text-muted);
+  font-family: var(--font-family-mono);
+  font-size: 0.82rem;
+}
+
+.tooltip-time .svg-icon {
+  width: 14px;
+  height: 14px;
+}
+
+.tooltip-temp {
+  font-weight: 800;
+  font-size: 1.1rem;
+  color: var(--color-text-primary);
+}
+
+.tooltip-sub {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--color-primary);
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.tooltip-sub .svg-icon {
+  width: 14px;
+  height: 14px;
+}
+
+/* Tira horizontal de tarjetas por hora */
+.hourly-cards-reel {
+  display: flex;
+  gap: 0.85rem;
+  overflow-x: auto;
+  padding: 0.5rem 0.25rem;
+  scroll-snap-type: x mandatory;
+}
+
+.hourly-reel-card {
+  flex: 0 0 95px;
+  scroll-snap-align: start;
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 0.85rem 0.6rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+  transition: background var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.hourly-reel-card:hover {
+  background: var(--color-bg-card-hover);
+  border-color: var(--color-border-hover);
+  transform: translateY(-2px);
+}
+
+.reel-hour {
+  font-size: 0.88rem;
+  color: var(--color-text-muted);
+  font-family: var(--font-family-mono);
+  font-weight: 600;
+}
+
+.reel-icon .svg-icon {
+  width: 26px;
+  height: 26px;
+  color: var(--color-primary);
+}
+
+.reel-temp {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--color-text-primary);
+}
+
+.reel-precip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  font-family: var(--font-family-mono);
+}
+
+.precip-icon .svg-icon {
+  width: 12px;
+  height: 12px;
+}

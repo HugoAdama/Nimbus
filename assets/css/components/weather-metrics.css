@@ -1,0 +1,204 @@
+/**
+ * Componente: Métricas Atmosféricas Detalladas
+ */
+
+.metrics-section {
+  width: 100%;
+  min-width: 0;
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.15rem;
+  min-width: 0;
+}
+
+@media (max-width: 580px) {
+  .metrics-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.metric-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 1.35rem;
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-fast);
+  min-width: 0;
+}
+
+.metric-card:hover {
+  background: var(--color-bg-card-hover);
+  border-color: var(--color-border-hover);
+  transform: translateY(-2px);
+}
+
+.metric-header {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  color: var(--color-text-muted);
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+
+.metric-icon .svg-icon {
+  width: 19px;
+  height: 19px;
+  color: var(--color-primary);
+}
+
+.metric-main-val {
+  display: flex;
+  align-items: baseline;
+  gap: 0.35rem;
+}
+
+.metric-number {
+  font-size: clamp(2rem, 2.6vw, 2.5rem);
+  font-weight: 800;
+  color: var(--color-text-primary);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.metric-unit {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.metric-progress-wrap {
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+body.mode-light .metric-progress-wrap {
+  background: rgba(15, 23, 42, 0.1);
+}
+
+.metric-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-primary), #818cf8);
+  border-radius: var(--radius-full);
+}
+
+.metric-sub-val {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.88rem;
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+
+.compass-arrow {
+  display: inline-flex;
+  transition: transform 0.4s ease;
+}
+
+.compass-arrow .svg-icon {
+  width: 15px;
+  height: 15px;
+  color: var(--color-primary);
+}
+
+.uv-badge {
+  display: inline-block;
+  padding: 0.2rem 0.65rem;
+  border-radius: var(--radius-full);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.uv-low {
+  background: rgba(16, 185, 129, 0.22);
+  color: #34d399;
+}
+
+body.mode-light .uv-low {
+  background: rgba(16, 185, 129, 0.15);
+  color: #047857;
+}
+
+.uv-moderate {
+  background: rgba(245, 158, 11, 0.22);
+  color: #fbbf24;
+}
+
+body.mode-light .uv-moderate {
+  background: rgba(245, 158, 11, 0.15);
+  color: #b45309;
+}
+
+.uv-high {
+  background: rgba(249, 115, 22, 0.22);
+  color: #fb923c;
+}
+
+body.mode-light .uv-high {
+  background: rgba(249, 115, 22, 0.15);
+  color: #c2410c;
+}
+
+.uv-very-high,
+.uv-extreme {
+  background: rgba(244, 63, 94, 0.22);
+  color: #fb7185;
+}
+
+body.mode-light .uv-very-high,
+body.mode-light .uv-extreme {
+  background: rgba(244, 63, 94, 0.15);
+  color: #be123c;
+}
+
+.solar-card {
+  grid-column: span 1;
+}
+
+.solar-times {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 0.35rem;
+}
+
+.solar-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.solar-label {
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+
+.solar-val {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  font-family: var(--font-family-mono);
+}
+
+.solar-item .svg-icon {
+  width: 17px;
+  height: 17px;
+  color: var(--color-gold);
+}
