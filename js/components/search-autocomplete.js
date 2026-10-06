@@ -7,6 +7,7 @@ import { debounce } from "../utils/debounce.js";
 import { geocodingService } from "../services/geocoding.service.js";
 import { escapeHtml } from "../utils/dom.js";
 import { SVG_ICONS } from "../../assets/icons/weather-icons.js";
+import { calculateNextIndex, updateItemSelection } from "../utils/keyboard-nav.js";
 
 export class SearchAutocompleteComponent {
   /**
@@ -256,26 +257,18 @@ export class SearchAutocompleteComponent {
 
   navigateSuggestions(direction) {
     if (this.currentSuggestions.length === 0) return;
-    const count = this.currentSuggestions.length;
-    let nextIndex = this.activeIndex + direction;
-
-    if (nextIndex >= count) nextIndex = 0;
-    if (nextIndex < 0) nextIndex = count - 1;
-
+    const nextIndex = calculateNextIndex(
+      this.activeIndex,
+      this.currentSuggestions.length,
+      direction
+    );
     this.setActiveIndex(nextIndex);
   }
 
   setActiveIndex(idx) {
     this.activeIndex = idx;
     const items = this.dropdown.querySelectorAll(".suggestion-item");
-    items.forEach((item, i) => {
-      const isSelected = i === idx;
-      item.classList.toggle("selected", isSelected);
-      item.setAttribute("aria-selected", isSelected ? "true" : "false");
-      if (isSelected) {
-        item.scrollIntoView({ block: "nearest" });
-      }
-    });
+    updateItemSelection(items, idx);
   }
 
   selectCity(city) {

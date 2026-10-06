@@ -36,16 +36,17 @@ APP_CLIMAS/
 |-- server.js                        Servidor local HTTP de pruebas
 |-- assets/
 |   |-- css/                         Hojas de estilo modulares (Tokens, Base, Layout, Componentes, Temas)
-|   |-- icons/                       Catalogo vectorial de iconos SVG
+|   |-- icons/                       Catalogo vectorial SVG y favicon oficial
 |-- js/
-|   |-- app.js                       Orquestador principal
+|   |-- app.js                       Punto de arranque e inicializacion pura (Bootstrap)
+|   |-- controllers/                 Controladores de flujo asincrono (WeatherController)
 |   |-- config/                      Configuracion de APIs y mapeo OMM (WMO)
-|   |-- services/                    Servicios de red, GPS y almacenamiento local
-|   |-- state/                       Estado centralizado (Patron Observador)
+|   |-- services/                    Servicios de red, GPS, temas y almacenamiento local
+|   |-- state/                       Estado centralizado reactivo (Patron Observador)
 |   |-- components/                  Componentes de interfaz de usuario desacoplados
-|   |-- utils/                       Utilidades (debounce, unidades, fechas, DOM)
+|   |-- utils/                       Utilidades (splines SVG, navegacion teclado, debounce, unidades)
 |-- docs/
-    |-- ARQUITECTURA.md              Diseno arquitectonico y flujo de datos
+    |-- ARQUITECTURA.md              Diseno arquitectonico detallado y flujo de datos
     |-- TECNOLOGIAS.md               Pila tecnologica y terminos de Open-Meteo
     |-- APRENDIZAJE.md               Lecciones tecnicas y resolucion de desafios
 ```

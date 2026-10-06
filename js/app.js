@@ -1,15 +1,12 @@
 /**
- * Orquestador principal de la aplicación Nimbus.
- * Coordina la inicialización de componentes, el flujo de datos y el cambio dinámico de temas.
+ * Orquestador principal de la aplicación Nimbus (Bootstrap).
+ * Coordina la inicialización de los servicios, controladores y el montaje de componentes UI.
  */
 
-import { appState, APP_STATUS } from "./state/app-state.js";
-import { weatherService } from "./services/weather.service.js";
-import { geolocationService, GEOLOCATION_ERRORS } from "./services/geolocation.service.js";
-import { storageService } from "./services/storage.service.js";
-import { getWeatherInterpretation } from "./config/wmo-codes.js";
+import { themeService } from "./services/theme.service.js";
+import { weatherController } from "./controllers/weather.controller.js";
 
-// Componentes
+// Componentes desacoplados de la interfaz
 import { HeaderBarComponent } from "./components/header-bar.js";
 import { SearchAutocompleteComponent } from "./components/search-autocomplete.js";
 import { FavoritesBarComponent } from "./components/favorites-bar.js";
@@ -20,219 +17,67 @@ import { WeatherMetricsComponent } from "./components/weather-metrics.js";
 import { FeedbackViewComponent } from "./components/feedback-view.js";
 
 class WeatherApp {
-  constructor() {
-    this.lastRequestedCity = null;
-    this.activeForecastAbort = null;
+  /**
+   * Inicializa la aplicación y sus subsistemas.
+   */
+  init() {
+    // 1. Inicializar servicio de temas visuales
+    themeService.init();
+
+    // 2. Montar componentes de la interfaz de usuario
+    this.initComponents();
+
+    // 3. Restaurar sesión previa o desplegar estado inicial
+    weatherController.restoreInitialSession();
   }
 
   /**
-   * Inicializa la aplicación y sus componentes.
+   * Monta cada componente en su punto del DOM y enlaza los callbacks al WeatherController.
    */
-  init() {
-    this.initComponents();
-    this.setupThemeWatcher();
-    this.restoreInitialSession();
-  }
-
   initComponents() {
-    // 1. Barra de cabecera
+    // Barra de cabecera con botón de GPS y selector de tema/unidades
     new HeaderBarComponent(
       document.getElementById("mount-header"),
       {
-        onLocateMe: () => this.handleLocateUser()
+        onLocateMe: () => weatherController.handleLocateUser()
       }
     );
 
-    // 2. Buscador con autocompletado y debounce
+    // Buscador con autocompletado y retardo (debounce)
     new SearchAutocompleteComponent(
       document.getElementById("mount-search"),
       {
-        onSelectCity: (city) => this.loadWeatherForCity(city)
+        onSelectCity: (city) => weatherController.loadWeatherForCity(city)
       }
     );
 
-    // 3. Barra de favoritos
+    // Barra de ciudades favoritas persistidas
     new FavoritesBarComponent(
       document.getElementById("mount-favorites"),
       {
-        onSelectCity: (city) => this.loadWeatherForCity(city)
+        onSelectCity: (city) => weatherController.loadWeatherForCity(city)
       }
     );
 
-    // 4. Vistas de retroalimentación (Vacío, Carga, Error)
+    // Vistas de retroalimentación (Bienvenida, Esqueleto de Carga, Error)
     new FeedbackViewComponent(
       document.getElementById("mount-feedback"),
       {
-        onSelectCity: (city) => this.loadWeatherForCity(city),
-        onLocateMe: () => this.handleLocateUser(),
-        onRetry: () => this.retryLastAction()
+        onSelectCity: (city) => weatherController.loadWeatherForCity(city),
+        onLocateMe: () => weatherController.handleLocateUser(),
+        onRetry: () => weatherController.retryLastAction()
       }
     );
 
-    // 5. Componentes de datos del clima
+    // Componentes principales de visualización meteorológica
     new CurrentWeatherComponent(document.getElementById("mount-current-weather"));
     new HourlyChartComponent(document.getElementById("mount-hourly-chart"));
     new DailyForecastComponent(document.getElementById("mount-daily-forecast"));
     new WeatherMetricsComponent(document.getElementById("mount-weather-metrics"));
   }
-
-  /**
-   * Observa cambios en el estado para actualizar el fondo temático dinámico y modo claro/oscuro.
-   */
-  setupThemeWatcher() {
-    const applyThemeMode = (mode) => {
-      document.documentElement.setAttribute("data-theme-mode", mode);
-      document.body.classList.toggle("mode-light", mode === "light");
-      document.body.classList.toggle("mode-dark", mode === "dark");
-    };
-
-    // Aplicar modo inicial
-    applyThemeMode(appState.getState().themeMode);
-
-    appState.subscribe((state, action) => {
-      const body = document.body;
-      const appContainer = document.getElementById("app-container");
-
-      // Sincronizar modo claro / oscuro
-      applyThemeMode(state.themeMode);
-
-      if (state.status === APP_STATUS.SUCCESS && state.forecast) {
-        const current = state.forecast.current;
-        const weatherInfo = getWeatherInterpretation(current.weatherCode, current.isDay);
-
-        // Remover clases temáticas climáticas anteriores
-        const themeClasses = [
-          "theme-clear", "theme-clouds", "theme-rain",
-          "theme-storm", "theme-snow", "theme-fog", "theme-default"
-        ];
-        body.classList.remove(...themeClasses);
-        body.classList.remove("is-day", "is-night");
-
-        // Aplicar nuevo tema y ciclo día/noche
-        body.classList.add(weatherInfo.theme);
-        body.classList.add(current.isDay ? "is-day" : "is-night");
-        if (appContainer) {
-          appContainer.dataset.theme = weatherInfo.theme;
-        }
-      } else {
-        // En estado idle, error o loading temprano, tema neutral sobrio
-        const themeClasses = [
-          "theme-clear", "theme-clouds", "theme-rain",
-          "theme-storm", "theme-snow", "theme-fog"
-        ];
-        body.classList.remove(...themeClasses);
-        body.classList.add("theme-default", "is-day");
-        if (appContainer) {
-          delete appContainer.dataset.theme;
-        }
-      }
-    });
-  }
-
-  /**
-   * Carga el pronóstico meteorológico para una ciudad objetivo.
-   * @param {Object} city
-   */
-  async loadWeatherForCity(city) {
-    if (!city || city.latitude === undefined || city.longitude === undefined) {
-      appState.setError("No encontramos los datos geográficos de esa ciudad.");
-      return;
-    }
-
-    this.lastRequestedCity = city;
-
-    // Cancelar consulta en curso previa si existiera
-    if (this.activeForecastAbort) {
-      this.activeForecastAbort.abort();
-    }
-    this.activeForecastAbort = new AbortController();
-
-    appState.setLoading(city.name);
-
-    try {
-      const forecastData = await weatherService.fetchForecast(
-        city.latitude,
-        city.longitude,
-        this.activeForecastAbort.signal
-      );
-
-      appState.setForecastSuccess(city, forecastData);
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    } catch (err) {
-      if (err.name === "AbortError") {
-        return;
-      }
-      console.error("Error al cargar pronóstico:", err);
-      appState.setError(
-        err.message || "No pudimos obtener el pronóstico meteorológico. Revisa tu conexión a internet.",
-        "NETWORK_ERROR"
-      );
-    } finally {
-      this.activeForecastAbort = null;
-    }
-  }
-
-  /**
-   * Maneja la geolocalización del navegador.
-   */
-  async handleLocateUser() {
-    appState.setLoading("Determinando tu ubicación actual...");
-
-    try {
-      const coords = await geolocationService.getCurrentPosition();
-      const resolvedLocation = await geolocationService.reverseGeocode(
-        coords.latitude,
-        coords.longitude
-      );
-
-      await this.loadWeatherForCity(resolvedLocation);
-    } catch (err) {
-      console.error("Fallo de geolocalización:", err);
-      if (err.code === GEOLOCATION_ERRORS.PERMISSION_DENIED) {
-        appState.setError(
-          "Permiso de ubicación denegado por el navegador. Puedes buscar tu ciudad manualmente en la barra superior o activar el permiso en la configuración del sitio.",
-          "GEOLOCATION_PERMISSION"
-        );
-      } else if (err.code === GEOLOCATION_ERRORS.TIMEOUT) {
-        appState.setError(
-          "Tiempo de espera agotado al consultar tu GPS. Por favor intenta buscar tu ciudad directamente.",
-          "GEOLOCATION_TIMEOUT"
-        );
-      } else {
-        appState.setError(
-          err.message || "No fue posible detectar tu ubicación geográfica.",
-          "GEOLOCATION_ERROR"
-        );
-      }
-    }
-  }
-
-  /**
-   * Reintenta la última acción solicitada por el usuario.
-   */
-  retryLastAction() {
-    if (this.lastRequestedCity) {
-      this.loadWeatherForCity(this.lastRequestedCity);
-    } else {
-      this.handleLocateUser();
-    }
-  }
-
-  /**
-   * Recupera la última ciudad vista para enriquecer la experiencia inicial
-   * o deja el estado vacío bien diseñado si es la primera visita.
-   */
-  restoreInitialSession() {
-    const lastCity = storageService.getLastCity();
-    if (lastCity) {
-      this.loadWeatherForCity(lastCity);
-    } else {
-      appState.resetToIdle();
-    }
-  }
 }
 
-// Iniciar al cargar el DOM
+// Inicializar la aplicación cuando el DOM esté listo
 document.addEventListener("DOMContentLoaded", () => {
   const app = new WeatherApp();
   app.init();

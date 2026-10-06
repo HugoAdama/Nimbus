@@ -91,3 +91,17 @@ Es comun en tutoriales basicos recurrir a emojis de caracteres Unicode para repr
 - Disenar un catalogo vectorial propio (`SVG_ICONS` en `assets/icons/weather-icons.js`) basado en vectores de 24x24 px con trazos uniformes (`stroke-width: 2`, `stroke-linecap: round`).
 - Vincular la interpretacion de codigos de la OMM (WMO Weather Codes) a pares de iconos de dia y noche.
 - El uso de la propiedad CSS `stroke: currentColor` permite que cada icono adopte dinamicamente el color del contenedor o tema activo con fidelidad absoluta.
+
+---
+
+## 7. Refactorizacion y Separacion de Responsabilidades: De Monolito a Arquitectura Modular
+
+### El problema:
+A medida que una aplicacion crece, es comun que los archivos iniciales acumulen demasiadas responsabilidades simultaneas (por ejemplo, un archivo CSS de mas de 1.500 lineas o un orquestador `app.js` que mezcla arranque, manipulacion de temas en el DOM, coordinacion de peticiones y cancelaciones asincronas). Esto incrementa la carga cognitiva y el riesgo de regresiones.
+
+### La solucion aprendida:
+Aplicar rigurosamente el **Principio de Responsabilidad Unica (SRP)** y **Separacion de Responsabilidades (SoC)**:
+1. **Modularizacion de Hojas de Estilo**: `components.css` se dividio en 8 hojas dedicadas bajo `assets/css/components/`, transformando el archivo principal en un master import limpio.
+2. **Extraccion de la Capa de Controladores (`WeatherController`)**: Se separo la logica de casos de uso asincronos (GPS, cancelaciones activas con `AbortController`, peticiones y reintentos) del ciclo de vida de montaje de la interfaz.
+3. **Servicio Especializado de Temas (`ThemeService`)**: Toda la manipulacion de clases de modo claro/oscuro y ambientacion climatica reactiva se delego a un servicio dedicado.
+4. **Utilidades Especializadas Puras**: Se extrajo la matematica de splines (`svg-curve.js`) y la logica de navegacion circular accesible por teclado (`keyboard-nav.js`), logrando componentes de interfaz mucho mas compactos, limpios y faciles de mantener.

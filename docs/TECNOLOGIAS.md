@@ -13,15 +13,19 @@ Este documento detalla la pila tecnologica, las APIs publicas integradas y las c
 
 ### 1.2. Vanilla CSS3 y Sistema de Diseno Moderno
 - **Variables CSS (Design Tokens)**: Control centralizado de colores, radios de curvatura, sombras de profundidad y tiempos de transicion.
-- **Glassmorphism**: Uso de `backdrop-filter: blur(16px)` combinado con fondos translucidos en capas (`rgba`) para lograr una estetica de profundidad.
-- **CSS Grid y Flexbox Avanzado**: Disposicion fluida y responsiva sin necesidad de frameworks monoliticos como Tailwind o Bootstrap.
-- **Micro-interacciones y Animaciones**: Declaracion de keyframes para efectos de esqueleto (*shimmer*), rotaciones lineales (*spin*), y transiciones de tema ambiental.
+- **Arquitectura CSS Modular**: Division estricta por componente en `assets/css/components/` con un `components.css` que actua como master import.
+- **Glassmorphism y Modo Claro/Oscuro**: Uso de `backdrop-filter: blur(20px)` y superficies con alto contraste adaptativo sin desbordamientos de grilla.
+- **CSS Grid y Flexbox Avanzado**: Disposicion 2x2 balanceada en escritorio y flujo fluido en columna unica en ventanas medianas y moviles.
+- **Micro-interacciones y Animaciones**: Declaracion de keyframes para efectos de esqueleto (*shimmer*), rotaciones lineales (*spin*), flotacion suave y transiciones de entrada (*cardPop*).
 
 ### 1.3. JavaScript Moderno (ES6+ / ES Modules)
-- **Modulos Nativos (`import` / `export`)**: Organizacion del codigo en componentes, servicios, estado y utilidades sin necesidad de transpiladores (Webpack, Rollup, Babel).
+- **Modulos Nativos (`import` / `export`)**: Organizacion del codigo en componentes, controladores, servicios, estado y utilidades sin necesidad de transpiladores (Webpack, Rollup, Babel).
+- **Patron Controlador (MVC)**: `WeatherController` orquesta el flujo de casos de uso asincronos (GPS, cancelaciones activas con `AbortController`, peticiones y reintentos).
+- **Servicio de Temas (`ThemeService`)**: Desacoplamiento de la logica de ciclo solar y modo claro/oscuro respecto al ciclo de vida de la aplicacion.
 - **Asincronia Pura**: Empleo de `async` / `await` para flujos asincronos legibles y gestion de excepciones mediante `try / catch`.
 - **Cancelacion de Solicitudes HTTP**: Integracion nativa de `AbortController` y `AbortSignal`.
 - **Patron Observador**: Implementacion manual de suscripcion a eventos de estado sin librerias externas.
+- **Utilidades Puras**: Modulos matematicos aislados para curvas spline (`svg-curve.js`) y accesibilidad de teclado (`keyboard-nav.js`).
 
 ---
 
