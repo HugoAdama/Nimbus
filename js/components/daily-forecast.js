@@ -58,7 +58,7 @@ export class DailyForecastComponent {
       const precipSum = day.precipitationSum ? `${day.precipitationSum.toFixed(1)} mm` : "0 mm";
 
       return `
-        <div class="daily-forecast-item" role="listitem">
+        <div class="daily-forecast-item ${idx === 0 ? "is-today" : ""}" role="listitem">
           <div class="daily-col-day">
             <span class="daily-day-title">${escapeHtml(dayLabel)}</span>
             <span class="daily-day-date">${escapeHtml(day.date.substring(5))}</span>

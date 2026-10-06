@@ -35,6 +35,15 @@
   transform: translateX(3px);
 }
 
+.daily-forecast-item.is-today {
+  border-color: rgba(56, 189, 248, 0.45);
+  background: var(--color-bg-card-hover);
+}
+
+.daily-forecast-item.is-today .daily-day-title {
+  color: var(--color-primary);
+}
+
 .daily-col-day {
   display: flex;
   flex-direction: column;

@@ -1,7 +1,7 @@
 /**
  * Componente: Clima actual (Tarjeta Principal / Hero).
- * Muestra temperatura principal, icono dinámico, condición, sensación térmica
- * y botón para marcar como favorita la ciudad actual.
+ * Muestra temperatura principal con tipografía destacada, icono dinámico,
+ * condición, resumen de micro-métricas, sensación térmica y rangos.
  */
 
 import { appState } from "../state/app-state.js";
@@ -83,34 +83,49 @@ export class CurrentWeatherComponent {
           <button 
             type="button" 
             id="btn-toggle-favorite" 
-            class="favorite-toggle-btn ${isFav ? "is-fav" : ""}" 
+            class="fav-toggle-btn ${isFav ? "is-favorite" : ""}" 
             title="${isFav ? "Quitar de favoritos" : "Guardar en favoritos"}"
             aria-label="${isFav ? "Quitar de favoritos" : "Guardar en favoritos"}"
             aria-pressed="${isFav}"
           >
-            <span class="fav-icon">${isFav ? SVG_ICONS.starFilled : SVG_ICONS.starOutline}</span>
+            <span class="fav-star-icon">${isFav ? SVG_ICONS.starFilled : SVG_ICONS.starOutline}</span>
             <span class="fav-label">${isFav ? "Guardada" : "Guardar"}</span>
           </button>
         </div>
 
         <div class="current-main-row">
-          <div class="temp-condition-block">
-            <div class="temperature-display">
-              <span class="temperature-number">${formatTempNumber(current.temperature, unit)}</span>
-              <div class="temp-unit-badge">
-                <span class="temp-degree">°</span>
-                <span class="temp-letter">${unit === "fahrenheit" ? "F" : "C"}</span>
-              </div>
+          <div class="current-temp-block">
+            <div class="temp-hero-display">
+              <span class="temp-main-val">${formatTempNumber(current.temperature, unit)}</span>
+              <span class="temp-unit-symbol">°${unit === "fahrenheit" ? "F" : "C"}</span>
             </div>
 
-            <div class="condition-display">
+            <div class="condition-summary">
               <h3 class="condition-title">${escapeHtml(weatherInfo.label)}</h3>
-              <p class="condition-description">${escapeHtml(weatherInfo.description)}</p>
+              <p class="condition-desc">${escapeHtml(weatherInfo.description)}</p>
             </div>
           </div>
 
-          <div class="weather-hero-icon" aria-hidden="true">
+          <div class="current-icon-block" aria-hidden="true">
             ${getIcon(weatherInfo.icon, "hero-svg-icon")}
+          </div>
+        </div>
+
+        <div class="current-highlights-strip" role="group" aria-label="Resumen rápido">
+          <div class="highlight-item" title="Humedad relativa">
+            <span class="highlight-icon">${SVG_ICONS.droplet}</span>
+            <span class="highlight-val">${current.humidity}%</span>
+            <span class="highlight-label">Humedad</span>
+          </div>
+          <div class="highlight-item" title="Velocidad del viento">
+            <span class="highlight-icon">${SVG_ICONS.wind}</span>
+            <span class="highlight-val">${Math.round(current.windSpeed)} km/h</span>
+            <span class="highlight-label">Viento</span>
+          </div>
+          <div class="highlight-item" title="Índice ultravioleta máximo">
+            <span class="highlight-icon">${SVG_ICONS.sun}</span>
+            <span class="highlight-val">UV ${todayDaily ? Math.round(todayDaily.uvIndexMax) : 0}</span>
+            <span class="highlight-label">Índice</span>
           </div>
         </div>
 
