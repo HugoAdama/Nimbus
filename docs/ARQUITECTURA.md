@@ -156,3 +156,14 @@ Funciones puras y especializadas sin estado mutable:
 2. **Bajo Acoplamiento**: Los componentes no conocen cómo se obtienen los datos; los servicios no conocen cómo se renderiza el HTML.
 3. **Testabilidad Aislada**: Los algoritmos matemáticos (`svg-curve.js`, `keyboard-nav.js`) y controladores pueden ser probados de forma unitaria en Node.js sin emular un navegador completo.
 4. **Mantenibilidad CSS**: Al dividir `components.css` en 8 hojas específicas por componente, la edición de estilos es inmediata y no produce efectos colaterales en otros elementos.
+
+---
+
+## 5. Estrategia de Despliegue en Produccion (GitHub Pages)
+
+Nimbus adopta un modelo arquitectónico de despliegue continuo sin intermediarios (*Continuous Deployment via GitHub Pages*):
+
+1. **Topologia Serverless Estatica**: La infraestructura no requiere Node.js, contenedores Docker ni servidores dinámicos en producción; GitHub Pages sirve los ficheros estáticos de forma directa a través de su CDN perimetral.
+2. **Compatibilidad con Subdominios y Subrutas**: Al utilizar rutas estrictamente relativas (`assets/...`, `js/...`), la aplicación opera idénticamente tanto en un dominio raíz (`https://dominio.com/`) como en el subpath de usuario de GitHub (`https://hugoadama.github.io/Nimbus/`).
+3. **Cero Dependencias de Construccion**: Sin paquetes `dist/` ni configuraciones de compiladores que puedan desincronizarse; el código fuente versionado en la rama `main` es exactamente el código ejecutado en el cliente web.
+4. **Cifrado Forzado**: Se impone HTTPS en la capa de transporte para garantizar la integridad de los datos, prevenir manipulaciones intermedias y habilitar el uso seguro de la Geolocation API en navegadores modernos.

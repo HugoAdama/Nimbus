@@ -1,5 +1,10 @@
 # Nimbus - Aplicacion Meteorologica Profesional
 
+[![GitHub Pages](https://img.shields.io/badge/Live%20Demo-GitHub%20Pages-0284c7?style=for-the-badge&logo=github)](https://hugoadama.github.io/Nimbus/)
+[![Status](https://img.shields.io/badge/Status-Completado%20y%20Publicado-10b981?style=for-the-badge)](https://hugoadama.github.io/Nimbus/)
+
+> **Demo en Vivo**: [https://hugoadama.github.io/Nimbus/](https://hugoadama.github.io/Nimbus/)
+
 Aplicacion web meteorologica en tiempo real con arquitectura limpia basada en Separacion de Responsabilidades (SoC), gestion reactiva del estado, consumo asincrono de APIs abiertas y diseno sin emojis.
 
 ---
@@ -20,11 +25,28 @@ Aplicacion web meteorologica en tiempo real con arquitectura limpia basada en Se
 - **Geolocalizacion con Tolerancia a Fallos**: Deteccion automatica de ubicacion del usuario (`navigator.geolocation`) con geocodificacion inversa y manejo exhaustivo de permisos denegados o timeouts.
 - **Conmutador de Unidades (°C / °F)**: Alternancia instantanea entre grados Celsius y Fahrenheit persistida en el navegador.
 - **Ciudades Favoritas**: Marcado de ciudades destacadas con estrella dorada, chips de acceso inmediato y sincronizacion en `localStorage`.
-- **Grafico Horario Interactivo (24h)**: Curva continua de temperatura generada matematicamente con Splines Bezier sobre SVG nativo, con linea guia y tooltip flotante interactivo.
+- **Grafico Horario Interactivo (24h) y Carrusel Optimizado**: 
+  - Curva continua de temperatura generada matematicamente con Splines Bezier sobre SVG nativo.
+  - Tira de 24 horas completa con controles interactivos de desplazamiento (`<` y `>`).
+  - Desplazamiento horizontal directo con la rueda del raton (`mouse wheel`).
+  - Arrastre suave con clic sostenido (*drag-to-scroll*).
 - **Fondo y Temas Dinamicos**: Paletas cromaticas reactivas a la condicion atmosferica (despejado, nubes, lluvia, tormenta, nieve, niebla) y al ciclo solar (dia/noche).
 - **Modo Claro y Oscuro**: Soporte para alternar entre Modo Oscuro y Modo Claro con paleta adaptada, alto contraste, transiciones fluidas y persistencia automatica.
 - **Diseno Responsivo Equilibrado**: Distribucion 2x2 en pantallas de escritorio y flujo vertical fluido en tablet y moviles, con tipografia fluida mediante `clamp()`.
 - **Estricta Politica Sin Emojis**: Catalogo de iconos vectoriales SVG de 24x24 px limpios y consistentes en cualquier dispositivo.
+- **Ciudades Populares de Inicio**: Exploracion inmediata de urbes mundiales destacadas, encabezada por **Lima (Perú)**, Madrid, Ciudad de México, Buenos Aires, Bogotá y Tokio.
+
+---
+
+## Despliegue en GitHub Pages
+
+Nimbus esta optimizado para servirse como una aplicacion estatica de alto rendimiento sin requerir pasos de construccion (*buildless architecture*):
+
+- **URL de Produccion**: [https://hugoadama.github.io/Nimbus/](https://hugoadama.github.io/Nimbus/)
+- **Rama fuente**: `main`
+- **Directorio de publicacion**: `/ (root)`
+- **Seguridad**: HTTPS forzado (`Enforce HTTPS`)
+- **Portabilidad**: Rutas de recursos 100% relativas compatibles con subcarpetas en GitHub Pages.
 
 ---
 

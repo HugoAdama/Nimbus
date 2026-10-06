@@ -66,6 +66,8 @@ Este documento detalla la pila tecnologica, las APIs publicas integradas y las c
 | **Web Storage API** | Persistencia en disco local (`localStorage`) de la unidad preferida (°C/°F) y de las ciudades favoritas del usuario. |
 | **Fetch API** | Comunicacion HTTP asincrona basada en promesas para consumir endpoints REST JSON. |
 | **AbortController API** | Cancelacion activa de peticiones HTTP en vuelo para prevenir condiciones de carrera. |
+| **WheelEvent API** | Captura y conversion pasiva de scroll vertical a desplazamiento horizontal continuo en el carrusel de horas. |
+| **Mouse / Pointer Events** | Deteccion de arrastre ergonomico (*drag-to-scroll*) con cambio reactivo de cursores (`grab` / `grabbing`). |
 
 ---
 
@@ -73,3 +75,13 @@ Este documento detalla la pila tecnologica, las APIs publicas integradas y las c
 
 - **Grafico SVG Dinamico (24 horas)**: Calculo matematico de curvas spline Catmull-Rom a Bezier cubicas (`C cp1x cp1y, cp2x cp2y, x y`) sobre un `viewBox` escalable. Relleno con gradiente lineal y cursor interactivo sincronizado con puntero o eventos tactiles.
 - **Catalogo de Iconos Vectoriales (Zero Emojis)**: Creacion de un archivo de iconos en formato SVG puro (`weather-icons.js`) con coordenadas exactas de 24x24 px, asegurando una apariencia profesional, neutral y libre de variaciones visuales segun el sistema operativo del usuario.
+
+---
+
+## 5. Plataforma de Alojamiento y Despliegue: GitHub Pages
+
+- **Proveedor**: GitHub Inc. (Infraestructura CDN Global basada en Fastly).
+- **URL de Produccion**: [https://hugoadama.github.io/Nimbus/](https://hugoadama.github.io/Nimbus/)
+- **Modalidad**: *Deploy from a branch* (`main` / `root`).
+- **Seguridad**: Cifrado obligatorio TLS v1.3 con opcion *Enforce HTTPS* activa.
+- **Ventaja Arquitectonica**: Cero costos de infraestructura de servidor (*Zero DevOps*), carga instantanea de recursos cacheados por CDN y soporte nativo para ES Modules sin empaquetado.

@@ -105,3 +105,39 @@ Aplicar rigurosamente el **Principio de Responsabilidad Unica (SRP)** y **Separa
 2. **Extraccion de la Capa de Controladores (`WeatherController`)**: Se separo la logica de casos de uso asincronos (GPS, cancelaciones activas con `AbortController`, peticiones y reintentos) del ciclo de vida de montaje de la interfaz.
 3. **Servicio Especializado de Temas (`ThemeService`)**: Toda la manipulacion de clases de modo claro/oscuro y ambientacion climatica reactiva se delego a un servicio dedicado.
 4. **Utilidades Especializadas Puras**: Se extrajo la matematica de splines (`svg-curve.js`) y la logica de navegacion circular accesible por teclado (`keyboard-nav.js`), logrando componentes de interfaz mucho mas compactos, limpios y faciles de mantener.
+
+---
+
+## 8. Experiencia de Usuario (UX) en Desplazamiento Horizontal
+
+### El problema:
+Los carruseles o tiras horizontales en navegadores de escritorio sufren una friccion comun: los usuarios con raton estandar no disponen de rueda horizontal (`tilt-wheel`) ni panel tactil con gestos. Por defecto, girar la rueda del raton sobre un carrusel intenta desplazar la pagina verticalmente sin avanzar el contenido del carrusel, y las barras de desplazamiento nativas son toscas y rigidas con `scroll-snap-type: x mandatory`.
+
+### La solucion aprendida:
+1. **Traduccion del evento `wheel`**: Interceptar el evento de rueda (`e.deltaY`) cuando el puntero esta sobre el carrusel y sumarlo al `scrollLeft`, permitiendo un avance horizontal natural sin necesidad de mantener pulsada la tecla Shift.
+2. **Arrastre ergonomico (*Drag-to-Scroll*)**: Implementar listeners de `mousedown`, `mousemove` y `mouseup` con multiplicador de velocidad y cambio de cursores (`grab` a `grabbing`), simulando el comportamiento fluido de dispositivos tactiles en el escritorio.
+3. **Controles dedicados (`<` y `>`)**: Botones interactivos con scroll suave (`scrollBy({ left: ±320, behavior: 'smooth' })`) y desactivacion reactiva en los limites del scroll.
+4. **Scroll Snap de Proximidad**: Cambiar de `mandatory` a `proximity` para que el usuario no sienta rigidez al arrastrar con el raton mientras se preserva el alineamiento ordenado al soltar.
+
+---
+
+## 9. Prevencion de Valores `undefined` en Interpolacion de Plantillas Literales
+
+### El problema:
+En JavaScript, los template literals (`` `${variable}` ``) convierten automaticamente cualquier valor `undefined` en la cadena de texto `"undefined"`. Si una propiedad de un catalogo de objetos cambia de nombre o no existe (como `SVG_ICONS.droplet` vs `SVG_ICONS.humidity`), el fallo no interrumpe el script con una excepcion visible, sino que inserta silenciosamente la palabra `undefined` en el DOM visible para el usuario.
+
+### La solucion aprendida:
+- Disenar catalogos con alias retrocompatibles para propiedades sinonimas (`droplet` como alias de `humidity`).
+- Emplear operadores de fusion nula o respaldo defensivo (`SVG_ICONS.humidity || SVG_ICONS.droplet || ""`).
+- Implementar validaciones automatizadas en suites de pruebas para asegurar que cada clave requerida por los componentes de renderizado exista en el catalogo antes de desplegar a produccion.
+
+---
+
+## 10. Despliegue en GitHub Pages y Arquitectura Portable (Zero-Build)
+
+### El problema:
+Muchos frameworks modernos requieren procesos complejos de empaquetado (build pipeline, bundler output folders, variables de entorno fijas). Al desplegar en servicios de alojamiento estatico como GitHub Pages bajo un subpath de repositorio (`/Nimbus/`), es frecuente que las rutas absolutas (`/assets/...`) se rompan al apuntar a la raiz del dominio de usuario (`hugoadama.github.io/assets/...`) en vez de la raiz del proyecto.
+
+### La solucion aprendida:
+- **Rutas Relativas Estrictas**: Referenciar todos los modulos, estilos e iconos mediante rutas relativas al documento HTML (`assets/css/...`, `js/app.js`), asegurando total independencia del entorno y funcionando tanto en servidores locales (`http://localhost:8085/`) como en el subdirectorio de GitHub Pages (`https://hugoadama.github.io/Nimbus/`).
+- **Arquitectura Sin Paso de Compilacion (*Zero-Build*)**: Al usar modulos nativos ES6+ (`<script type="module">`), la aplicacion se sirve de forma directa y pura sin requerir compilacion previa, aprovechando el despliegue nativo desde la rama `main` de GitHub Pages.
